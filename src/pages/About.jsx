@@ -5,7 +5,7 @@ import { bio, education, languages, softSkills, lookingFor } from '../data/about
 import { site } from '../data/siteConfig';
 
 // Default portrait uses heroImg. To use a distinct photo, drop it at src/assets/about.jpg (or .png) and import it here.
-import heroImg from '../assets/hero.png';
+import heroImg from '../assets/hero.jpg';
 const aboutImg = heroImg;
 
 
@@ -43,8 +43,8 @@ export function About() {
         <div className="about-page__hero-row" data-enter="fade">
           {aboutImg && (
             <div className="about-photo-wrap">
-              <div className="about-photo__ring"   aria-hidden="true" />
-              <div className="about-photo__glow"   aria-hidden="true" />
+              <div className="about-photo__ring" aria-hidden="true" />
+              <div className="about-photo__glow" aria-hidden="true" />
               <img
                 src={aboutImg}
                 alt={`${site.name} — portrait`}

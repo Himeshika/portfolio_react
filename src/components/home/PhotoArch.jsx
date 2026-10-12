@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useMouseParallax } from '../../hooks/useMouseParallax';
-import heroImg from '../../assets/hero.png';
+import heroImg from '../../assets/hero.jpg';
 import './PhotoArch.css';
 
 const ORBIT_CHIPS = [

@@ -9,6 +9,8 @@ export const galleryItems = [
   { src: "/gallery/g8.jpg",  alt: "Himeshika — moment 8",  category: "Trips" },
   { src: "/gallery/g9.jpg",  alt: "Himeshika — moment 9",  category: "Moments" },
   { src: "/gallery/g10.jpg", alt: "Himeshika — moment 10", category: "Me" },
+  { src: "/gallery/g11.jpg", alt: "Himeshika — moment 11", category: "Moments" },
+  { src: "/gallery/g12.jpg", alt: "Himeshika — moment 12", category: "Trips" },
 ];
 
 export const galleryCategories = ["All", "Me", "Moments", "Trips"];
