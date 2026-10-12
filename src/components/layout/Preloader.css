@@ -1,0 +1,27 @@
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-preloader);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  background: var(--bg);
+}
+
+.preloader__svg {
+  width: min(180px, 45vw);
+  height: auto;
+  filter: drop-shadow(0 0 24px rgba(244, 63, 122, 0.5));
+}
+
+.preloader__text {
+  font-family: var(--font-accent);
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 0.05em;
+}

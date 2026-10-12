@@ -1,0 +1,57 @@
+.marquee-wrapper {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
+  overflow: hidden;
+  padding-block: 0.3rem;
+}
+
+.marquee {
+  overflow: hidden;
+}
+
+.marquee__track {
+  display: flex;
+  gap: 1.5rem;
+  width: max-content;
+  animation: marquee-scroll 28s linear infinite;
+}
+.marquee__track:hover { animation-play-state: paused; }
+
+.marquee__item {
+  background: var(--surface);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: color var(--dur-fast), border-color var(--dur-fast);
+}
+.marquee__item:hover { color: var(--pink); border-color: var(--pink); }
+
+/* Gradient fade edges */
+.marquee__fade {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 120px;
+  z-index: 2;
+  pointer-events: none;
+}
+.marquee__fade--left {
+  left: 0;
+  background: linear-gradient(to right, var(--bg), transparent);
+}
+.marquee__fade--right {
+  right: 0;
+  background: linear-gradient(to left, var(--bg), transparent);
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}

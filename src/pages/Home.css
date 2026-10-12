@@ -1,0 +1,68 @@
+.home {
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ── Selected work section ── */
+.home__projects {
+  padding-block: var(--space-8);
+}
+
+.home__projects-header {
+  margin-bottom: var(--space-6);
+  text-align: left;
+}
+
+.home__projects-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.home__projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-bottom: var(--space-6);
+}
+
+.home__projects-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-4);
+}
+
+/* ── CTA Band ── */
+.cta-band {
+  padding-block: var(--space-12);
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-band__inner {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.cta-band__heading {
+  font-family: var(--font-heading);
+  font-size: clamp(2.25rem, 5vw, 4rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--text);
+  max-width: 800px;
+}
+
+.cta-band__sub {
+  font-size: 1.125rem;
+  color: var(--text-muted);
+  max-width: 500px;
+}

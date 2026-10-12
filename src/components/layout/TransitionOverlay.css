@@ -1,0 +1,34 @@
+/* ── Transition Overlay ── */
+.t-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-preloader);
+  display: flex;
+  pointer-events: none;
+}
+
+.t-overlay__panel {
+  flex: 1;
+  height: 100%;
+  transform: translateY(100%); /* hidden below by default */
+  will-change: transform;
+}
+
+/* While animating, block interaction */
+.t-overlay--active { pointer-events: all; }
+
+.t-overlay__label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 6vw, 4rem);
+  font-weight: 700;
+  font-style: italic;
+  color: #fff;
+  pointer-events: none;
+  opacity: 0;
+  white-space: nowrap;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+}

@@ -1,0 +1,143 @@
+/** @type {import('../types').Project[]} */
+export const projects = [
+  /* ── NEW PROJECTS (featured) ─────────────────────── */
+  {
+    slug: "sri-tech-computer-store",
+    title: "Sri Tech Computer Store",
+    subtitle: "MERN stack e-commerce application",
+    type: "Team project",
+    year: "2025",
+    category: ["Full-Stack"],
+    tech: ["MongoDB", "Express.js", "React", "Node.js"],
+    color: "#F43F7A",
+    bullets: [
+      "Collaborated on planning and developing a full-stack e-commerce app for a computer store.",
+      "Contributed to frontend and backend: product management, APIs, database integration, and user-focused features.",
+      "Deployed and hosted the application, gaining hands-on production deployment experience.",
+    ],
+    github: [{ label: "Backend", repo: "SRI-TECH-BE" }],
+    live: "",
+  },
+  {
+    slug: "ceybride",
+    title: "CeyBride",
+    subtitle: "Full-stack Sri Lankan wedding planning platform",
+    type: "Solo project",
+    year: "2025",
+    category: ["Full-Stack", "Java"],
+    tech: ["Java", "Spring Boot", "Spring Security", "JWT", "Spring Data JPA", "MySQL", "React", "Tailwind CSS"],
+    color: "#B5179E",
+    bullets: [
+      "Layered Spring Boot backend with a React (Vite) frontend.",
+      "Rule-based Wedding Blueprint Generator: auto-creates tasks, ritual schedules and starter budgets from a couple's profile.",
+      "REST API secured with Spring Security and JWT authentication and authorization.",
+      "Spring Data JPA + MySQL across profile, guest, task, expense and vendor modules.",
+      "Client with React Router and Tailwind CSS v4: dashboard, guests, tasks, budget, payments, vendors, rituals.",
+      "Full CRUD for guests, tasks, expenses, vendors and rituals, plus dashboard summary and blueprint regeneration.",
+    ],
+    github: [
+      { label: "Frontend", repo: "ceybride-frontend-v1" },
+      { label: "Backend",  repo: "ceybride-backend" },
+    ],
+    live: "",
+  },
+  {
+    slug: "meditrack",
+    title: "MediTrack",
+    subtitle: "Patient medical record management system",
+    type: "Solo project",
+    year: "2025",
+    category: ["Full-Stack"],
+    tech: ["React 19", "TypeScript", "Node.js", "Express", "MongoDB", "JWT", "Tailwind CSS", "Cloudinary", "Jest", "Supertest"],
+    color: "#8B5CF6",
+    bullets: [
+      "Role-based access for Admin, Doctor and Receptionist users.",
+      "RESTful APIs with Express 5 and TypeScript; Mongoose for MongoDB modeling.",
+      "JWT authentication and reusable role-based access-control middleware.",
+      "Cloudinary medical image uploads; NIC-based patient search and record management.",
+      "Automated API tests with Jest, Supertest and an in-memory MongoDB for auth and patient endpoints.",
+      "React 19 + TypeScript + Vite + Tailwind v4 frontend with a Recharts analytics dashboard.",
+    ],
+    github: [
+      { label: "Frontend", repo: "meditrack_frontend" },
+      { label: "Backend",  repo: "meditrack_backend" },
+    ],
+    live: "",
+  },
+  {
+    slug: "fruity-fizz",
+    title: "Fruity Fizz",
+    subtitle: "Juice bar management system (layered architecture)",
+    type: "Desktop app",
+    year: "2024",
+    category: ["Java"],
+    tech: ["Java 21", "JavaFX", "MySQL", "JFoenix", "JasperReports", "Maven"],
+    color: "#C4A6FF",
+    bullets: [
+      "Strict layered architecture (DAO – Service – Controller) with JavaFX and FXML.",
+      "Modules: customer, employee, supplier, item, delivery, booking and order management.",
+      "JFoenix material UI, plus OTP email password reset using JavaMail.",
+      "JasperReports for orders and employee reports; Lombok and Commons BeanUtils to cut boilerplate.",
+      "Designed the MySQL schema for all core business entities.",
+    ],
+    github: [{ label: "Source", repo: "fruity-fizz-juice-bar-layered" }],
+    live: "",
+  },
+
+  /* ── OLDER PROJECTS (legacy cards, no detail page) ── */
+  {
+    slug: "elite-edu",
+    title: "Elite Edu",
+    subtitle: "Driving school management system",
+    type: "Solo project",
+    year: "2023",
+    category: ["Java"],
+    tech: ["Java", "MySQL", "Hibernate"],
+    color: "#7A1F3D",
+    bullets: [
+      "Driving school platform for handling students and instructor scheduling.",
+      "Hibernate ORM for entity mapping across student, instructor and session entities.",
+    ],
+    github: [],
+    live: "",
+    legacy: true,
+  },
+  {
+    slug: "chat-app",
+    title: "Chat App",
+    subtitle: "Multi-client real-time chat application",
+    type: "Solo project",
+    year: "2023",
+    category: ["Java"],
+    tech: ["Java", "JavaFX", "Sockets"],
+    color: "#7DD3FC",
+    bullets: [
+      "Real-time multi-client chat using Java Sockets with a JavaFX UI.",
+      "Simple server-client architecture supporting concurrent connections.",
+    ],
+    github: [],
+    live: "",
+    legacy: true,
+  },
+  {
+    slug: "portfolio-v1",
+    title: "Portfolio V1",
+    subtitle: "First personal website",
+    type: "Personal",
+    year: "2022",
+    category: ["Full-Stack"],
+    tech: ["HTML", "CSS", "JavaScript"],
+    color: "#F43F7A",
+    bullets: [
+      "First personal portfolio built with plain HTML, CSS and JavaScript.",
+    ],
+    github: [{ label: "Source", repo: "portfolio-himeshika" }],
+    live: "",
+    legacy: true,
+  },
+];
+
+export const projectFilters = ["All", "Full-Stack", "Java"];
+
+// Convenience: featured = first 3 (no legacy)
+export const featuredProjects = projects.filter(p => !p.legacy).slice(0, 3);

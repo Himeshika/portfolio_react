@@ -1,0 +1,2 @@
+/* Re-export aurora styles from the main styles dir */
+@import '../../styles/aurora.css';

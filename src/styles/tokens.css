@@ -1,0 +1,86 @@
+/* ──────────────────────────────────────────
+   DESIGN TOKENS  –  Himeshika Portfolio
+   ────────────────────────────────────────── */
+
+/* Google Fonts */
+/* Fonts are self-hosted via @fontsource-variable; imported in main.jsx */
+
+:root {
+  /* ── Palette ── */
+  --pink:   #FF6FB5;
+  --rose:   #F43F7A;
+  --lilac:  #C4A6FF;
+  --purple: #8B5CF6;
+  --berry:  #B5179E;
+  --maroon: #7A1F3D;
+  --sky:    #7DD3FC;
+
+  /* ── Brand gradient ── */
+  --brand-gradient: linear-gradient(120deg, var(--rose), var(--berry), var(--purple), var(--sky));
+  --pink-gradient:  linear-gradient(135deg, var(--rose) 0%, var(--berry) 50%, var(--purple) 100%);
+  --glow-gradient:  linear-gradient(120deg, var(--pink), var(--lilac), var(--sky));
+
+  /* ── Typography ── */
+  --font-heading: 'Fraunces Variable', 'Fraunces', Georgia, serif;
+  --font-body:    'Inter Variable', 'Inter', system-ui, sans-serif;
+  --font-mono:    'SF Mono', 'Fira Code', 'Fira Mono', monospace;
+
+  /* ── Spacing ── */
+  --section-py:  clamp(80px, 10vw, 140px);
+  --container:   min(1200px, 90vw);
+  --radius-sm:   12px;
+  --radius-md:   20px;
+  --radius-lg:   28px;
+  --radius-xl:   40px;
+
+  /* ── Z-index ── */
+  --z-bg:       -1;
+  --z-base:      1;
+  --z-card:     10;
+  --z-nav:     100;
+  --z-cursor:  200;
+  --z-preloader: 9999;
+
+  /* ── Transitions ── */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast:    200ms;
+  --dur-med:     400ms;
+  --dur-slow:    700ms;
+}
+
+/* ── LIGHT THEME (default) ── */
+[data-theme="light"], :root {
+  --bg:            #FFF5FA;
+  --bg-alt:        #FDE8F2;
+  --surface:       rgba(255, 255, 255, 0.65);
+  --surface-hover: rgba(255, 255, 255, 0.85);
+  --border:        rgba(244, 63, 122, 0.18);
+  --border-hover:  rgba(244, 63, 122, 0.4);
+  --text:          #2A0F1E;
+  --text-muted:    #7A5468;
+  --text-faint:    #B8869A;
+  --shadow:        0 4px 32px rgba(181, 23, 158, 0.12);
+  --shadow-glow:   0 0 40px rgba(244, 63, 122, 0.25);
+  --blob-opacity:  0.30;
+  --grain-opacity: 0.05;
+  --nav-bg:        rgba(255, 255, 255, 0.72);
+}
+
+/* ── DARK THEME ── */
+[data-theme="dark"] {
+  --bg:            #120818;
+  --bg-alt:        #1C0D2A;
+  --surface:       rgba(255, 255, 255, 0.06);
+  --surface-hover: rgba(255, 255, 255, 0.10);
+  --border:        rgba(196, 166, 255, 0.15);
+  --border-hover:  rgba(196, 166, 255, 0.35);
+  --text:          #FCEBF5;
+  --text-muted:    #B9A3B4;
+  --text-faint:    #7A5C71;
+  --shadow:        0 4px 32px rgba(139, 92, 246, 0.20);
+  --shadow-glow:   0 0 50px rgba(181, 23, 158, 0.30);
+  --blob-opacity:  0.18;
+  --grain-opacity: 0.04;
+  --nav-bg:        rgba(18, 8, 24, 0.75);
+}

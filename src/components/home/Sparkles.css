@@ -1,0 +1,27 @@
+.sparkles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.sparkle {
+  position: absolute;
+  bottom: -10px;
+  border-radius: 50%;
+  opacity: 0;
+  animation: sparkle-float linear infinite both;
+}
+
+@keyframes sparkle-float {
+  0%   { opacity: 0;    transform: translateY(0)   scale(0.5);  }
+  10%  { opacity: 0.9; }
+  80%  { opacity: 0.6; }
+  100% { opacity: 0;    transform: translateY(-110vh) scale(1.2); }
+}
+
+/* fewer on mobile */
+@media (max-width: 768px) {
+  .sparkle:nth-child(n+16) { display: none; }
+}

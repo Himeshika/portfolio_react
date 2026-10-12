@@ -1,0 +1,97 @@
+/* ── Aurora Background ── */
+/* 4 blobs on desktop, 2 on mobile.
+   Uses large radial-gradient backgrounds fading to transparent — NO filter: blur() for high GPU frame rate.
+   No mix-blend-mode.
+*/
+
+.aurora {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: var(--z-bg);
+  overflow: hidden;
+  contain: strict;
+}
+
+.aurora__blob {
+  position: absolute;
+  border-radius: 50%;
+  opacity: var(--blob-opacity, 0.25);
+  will-change: transform;
+  pointer-events: none;
+}
+
+/* Blob 1: Rose (top-left) */
+.aurora__blob--1 {
+  width: min(700px, 75vw);
+  height: min(700px, 75vw);
+  top: -15%;
+  left: -10%;
+  background: radial-gradient(circle, var(--rose) 0%, rgba(244, 63, 122, 0.4) 40%, transparent 70%);
+  animation: aurora-drift-1 22s ease-in-out infinite alternate;
+}
+
+/* Blob 2: Berry (top-right) */
+.aurora__blob--2 {
+  width: min(600px, 70vw);
+  height: min(600px, 70vw);
+  top: 10%;
+  right: -10%;
+  background: radial-gradient(circle, var(--berry) 0%, rgba(181, 23, 158, 0.35) 45%, transparent 70%);
+  animation: aurora-drift-2 26s ease-in-out infinite alternate;
+}
+
+/* Blob 3: Purple (bottom-left) */
+.aurora__blob--3 {
+  width: min(650px, 70vw);
+  height: min(650px, 70vw);
+  bottom: 5%;
+  left: 10%;
+  background: radial-gradient(circle, var(--purple) 0%, rgba(139, 92, 246, 0.3) 45%, transparent 70%);
+  animation: aurora-drift-3 28s ease-in-out infinite alternate;
+}
+
+/* Blob 4: Sky pop (center-right) */
+.aurora__blob--4 {
+  width: min(500px, 60vw);
+  height: min(500px, 60vw);
+  top: 45%;
+  right: 15%;
+  background: radial-gradient(circle, var(--sky) 0%, rgba(125, 211, 252, 0.25) 45%, transparent 70%);
+  animation: aurora-drift-4 24s ease-in-out infinite alternate;
+}
+
+/* Mobile: only 2 blobs to conserve battery and fill-rate */
+@media (max-width: 768px) {
+  .aurora__blob--3,
+  .aurora__blob--4 {
+    display: none;
+  }
+}
+
+/* Keyframes using ONLY transform */
+@keyframes aurora-drift-1 {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(8vw, 6vh) scale(1.12); }
+}
+
+@keyframes aurora-drift-2 {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-8vw, 10vh) scale(0.92); }
+}
+
+@keyframes aurora-drift-3 {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(6vw, -8vh) scale(1.08); }
+}
+
+@keyframes aurora-drift-4 {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-5vw, -6vh) scale(1.15); }
+}
+
+/* Paused when hidden or low power */
+.aurora--paused .aurora__blob,
+[data-lite-mode="true"] .aurora__blob {
+  animation-play-state: paused;
+}

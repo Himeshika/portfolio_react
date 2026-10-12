@@ -1,0 +1,297 @@
+/* ──────────────────────────────────────────
+   GLOBAL CSS — Reset, grain, scrollbar, base & design system
+   ────────────────────────────────────────── */
+@import './tokens.css';
+@import './aurora.css';
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* 8px Spacing scale */
+  --space-1: 0.5rem;   /* 8px */
+  --space-2: 1rem;     /* 16px */
+  --space-3: 1.5rem;   /* 24px */
+  --space-4: 2rem;     /* 32px */
+  --space-5: 2.5rem;   /* 40px */
+  --space-6: 3rem;     /* 48px */
+  --space-8: 4rem;     /* 64px */
+  --space-10: 5rem;    /* 80px */
+  --space-12: 6rem;    /* 96px */
+  --space-16: 8rem;    /* 128px */
+}
+
+html {
+  scroll-behavior: auto; /* Lenis handles smooth scroll */
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  overflow-x: hidden;
+  transition: background-color 0.4s ease, color 0.4s ease;
+  position: relative;
+}
+
+/* ── Film-grain overlay (static image, non-animated for 60fps) ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: var(--grain-opacity, 0.04);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  mix-blend-mode: overlay;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb {
+  background: var(--pink-gradient, var(--pink));
+  border-radius: 99px;
+}
+
+/* ── Selection ── */
+::selection {
+  background: rgba(244, 63, 122, 0.25);
+  color: var(--text);
+}
+
+/* ── Focus ring ── */
+:focus-visible {
+  outline: 2px solid var(--rose);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ── Container ── */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+/* ── Image defaults ── */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ── Link reset ── */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ── Section spacing ── */
+section {
+  padding-block: var(--section-py);
+}
+
+/* ── Editorial Page Header (Premium typography) ── */
+.page {
+  padding-top: calc(var(--space-8) + 2rem);
+  padding-bottom: var(--space-8);
+  min-height: 85vh;
+}
+
+.page-header {
+  margin-bottom: var(--space-6);
+  position: relative;
+}
+
+.page-header::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border-hover) 0%, transparent 80%);
+  margin-top: var(--space-4);
+}
+
+.page-eyebrow {
+  display: inline-block;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--rose);
+  margin-bottom: var(--space-1);
+}
+
+.page-title {
+  font-family: var(--font-heading);
+  font-size: clamp(3rem, 7vw, 6.5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: var(--space-2);
+}
+
+.page-intro {
+  font-size: clamp(1.0625rem, 2vw, 1.25rem);
+  color: var(--text-muted);
+  max-width: 680px;
+  line-height: 1.6;
+}
+
+/* ── Split word wrapper for GSAP page enter ── */
+.word-wrap {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+.word {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+/* ── Gradient text ── */
+.gradient-text {
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Solid translucent cards (NO backdrop-filter for high frame rate) ── */
+.glass {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+/* ── Buttons with fill-sweep on hover ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.75rem;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  border-radius: 999px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  z-index: 1;
+  transition: color 0.3s ease, border-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--brand-gradient);
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s var(--ease-out);
+  border-radius: inherit;
+}
+
+.btn:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.btn--primary {
+  background: var(--pink-gradient);
+  color: #fff;
+  border: 1px solid transparent;
+  box-shadow: 0 4px 20px rgba(244, 63, 122, 0.28);
+}
+
+.btn--primary:hover {
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(244, 63, 122, 0.4);
+}
+
+.btn--outline {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border-hover);
+}
+
+.btn--outline:hover {
+  color: #fff;
+  border-color: transparent;
+  transform: translateY(-2px);
+}
+
+/* ── Filter chips ── */
+.filter-chip {
+  padding: 0.5rem 1.25rem;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.filter-chip:hover {
+  color: var(--text);
+  border-color: var(--rose);
+}
+
+.filter-chip--active {
+  background: var(--rose);
+  color: #fff;
+  border-color: var(--rose);
+  box-shadow: 0 2px 14px rgba(244, 63, 122, 0.3);
+}
+
+/* ── Tech chip ── */
+.tech-chip {
+  display: inline-block;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  border-radius: 999px;
+  background: rgba(244, 63, 122, 0.08);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+[data-theme="dark"] .tech-chip {
+  background: rgba(196, 166, 255, 0.08);
+  border-color: rgba(196, 166, 255, 0.2);
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── Utility ── */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+}

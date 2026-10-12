@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Himeshika Nethmini | Full-Stack Developer</title>
+    <meta name="description" content="I build clean, useful web apps with Java, JavaScript and a lot of care for design." />
+    <meta name="theme-color" content="#FF6FB5" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Fonts are self-hosted via @fontsource-variable; imported in main.jsx -->
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+    <script>
+      // Prevent FOUC for theme
+      const stored = localStorage.getItem('theme');
+      if (stored === 'light' || stored === 'dark') {
+        document.documentElement.setAttribute('data-theme', stored);
+      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    </script>
+  </body>
+</html>
