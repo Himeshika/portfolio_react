@@ -60,7 +60,7 @@ export function ProjectDetail() {
                   className="btn btn--outline"
                   data-cursor="link"
                 >
-                  <SiGithub size={16} /> {label}
+                  <FiGithub size={16} /> {label}
                 </a>
               ) : null
             )}
