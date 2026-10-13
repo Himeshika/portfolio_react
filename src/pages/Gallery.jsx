@@ -13,7 +13,12 @@ export function Gallery() {
   const pageRef = useRef(null);
   usePageEnter(pageRef);
 
-  const [view, setView] = useState('grid'); // 'grid' | 'ring'
+  // Default to Grid on mobile; Ring carousel is not touch-friendly
+  const [view, setView] = useState(() =>
+    typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches
+      ? 'grid'
+      : 'grid' // always grid by default, ring is opt-in
+  );
   const [activeCat, setActiveCat] = useState('All');
   const [lightboxItem, setLightboxItem] = useState(null);
 

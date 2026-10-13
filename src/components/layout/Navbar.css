@@ -1,3 +1,4 @@
+/* ─── Navbar ─── */
 .navbar {
   position: fixed;
   top: 1.2rem;
@@ -44,7 +45,8 @@
   background-clip: text;
 }
 
-.navbar__links {
+.navbar__links-wrap {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 0.2rem;
@@ -67,7 +69,7 @@
 
 .navbar__pill {
   position: absolute;
-  inset: 0;
+  top: 0; bottom: 0;
   border-radius: 999px;
   background: rgba(244, 63, 122, 0.1);
   z-index: -1;
@@ -83,60 +85,135 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px; height: 36px;
-  border-radius: 50%;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 0.5rem;
+  border-radius: 999px;
   border: 1px solid var(--border);
   background: var(--surface);
   color: var(--text-muted);
   cursor: pointer;
   transition: all var(--dur-fast);
+  font-family: var(--font-body);
 }
 .navbar__theme-btn:hover { color: var(--pink); border-color: var(--pink); }
 
 .navbar__mobile-btn {
   display: none;
   align-items: center; justify-content: center;
-  width: 36px; height: 36px;
+  width: 40px; height: 40px;
   border-radius: 50%;
   border: 1px solid var(--border);
   background: var(--surface);
   color: var(--text);
   cursor: pointer;
+  transition: all var(--dur-fast);
 }
+.navbar__mobile-btn:hover { border-color: var(--rose); color: var(--rose); }
 
-/* Mobile menu */
+/* ─── Mobile menu (fullscreen overlay) ─── */
 .mobile-menu {
   position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: calc(var(--z-nav) - 1);
-  padding: 6rem 2rem 2rem;
+  inset: 0;
+  z-index: calc(var(--z-nav) + 1);
+  display: flex;
+  flex-direction: column;
+  padding: 5.5rem 1.5rem calc(env(safe-area-inset-bottom, 0px) + 2rem);
   background: var(--bg);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
-  display: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-12px);
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
 }
 
-.mobile-menu ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+.mobile-menu--open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+.mobile-menu__backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.mobile-menu ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
 
 .mobile-menu__link {
-  display: block; width: 100%;
-  background: none; border: none; cursor: pointer;
-  padding: 1rem 1.2rem;
-  font-size: 1.2rem;
-  font-weight: 500;
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.875rem 0.75rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+  font-family: var(--font-heading);
   color: var(--text);
   border-radius: var(--radius-md);
   text-align: left;
-  transition: background var(--dur-fast), color var(--dur-fast);
+  transition: background var(--dur-fast), color var(--dur-fast), padding-left var(--dur-fast);
+  min-height: 48px;
+  display: flex;
+  align-items: center;
 }
+
 .mobile-menu__link:hover,
 .mobile-menu__link--active {
   background: rgba(244, 63, 122, 0.08);
   color: var(--rose);
+  padding-left: 1.25rem;
 }
 
-@media (max-width: 768px) {
-  .navbar__links { display: none; }
-  .navbar__mobile-btn { display: flex; }
-  .mobile-menu { display: block; }
+/* Footer row: theme toggle + CV */
+.mobile-menu__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+  margin-top: 1rem;
+}
+
+.mobile-menu__cv-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  background: rgba(244, 63, 122, 0.08);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  min-height: 44px;
+}
+
+.mobile-menu__cv-btn:hover,
+.mobile-menu__cv-btn:active {
+  border-color: var(--rose);
+  color: var(--rose);
+}
+
+/* ─── Responsive: show hamburger at ≤ 1023px ─── */
+@media (max-width: 1023px) {
+  .navbar__links-wrap {
+    display: none;
+  }
+
+  .navbar__mobile-btn {
+    display: flex;
+  }
 }

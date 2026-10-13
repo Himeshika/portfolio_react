@@ -1,9 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useGSAP } from '@gsap/react';
 import { gsap } from '../../lib/gsap';
 import { TransitionLink } from './TransitionLink';
-import { FiSun, FiMoon, FiMenu, FiX } from 'react-icons/fi';
+import { FiSun, FiMoon, FiMenu, FiX, FiDownload } from 'react-icons/fi';
+import { site } from '../../data/siteConfig';
 import './Navbar.css';
 
 const NAV_ITEMS = [
@@ -16,12 +17,12 @@ const NAV_ITEMS = [
 ];
 
 export function Navbar({ theme, onThemeToggle }) {
-  const [scrolled,    setScrolled]    = useState(false);
-  const [mobileOpen,  setMobileOpen]  = useState(false);
-  const location = useLocation();
-  const pillRef  = useRef(null);
-  const linksRef = useRef([]);
-  const mobileMenuRef = useRef(null);
+  const [scrolled,   setScrolled]   = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const location     = useLocation();
+  const pillRef      = useRef(null);
+  const linksWrapRef = useRef(null);  // ref on wrapper div — query children for pill
+  const menuRef      = useRef(null);
 
   // Scrolled state
   useEffect(() => {
@@ -33,15 +34,38 @@ export function Navbar({ theme, onThemeToggle }) {
   // Close mobile menu on route change
   useEffect(() => { setMobileOpen(false); }, [location.pathname]);
 
-  // GSAP active pill — move to the active link
+  // Scroll lock while menu open
+  useEffect(() => {
+    document.documentElement.style.overflow = mobileOpen ? 'hidden' : '';
+    return () => { document.documentElement.style.overflow = ''; };
+  }, [mobileOpen]);
+
+  // Esc key closes menu
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') setMobileOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
+  // Focus first mobile menu link when opened
+  useEffect(() => {
+    if (mobileOpen && menuRef.current) {
+      const firstLink = menuRef.current.querySelector('a, button');
+      if (firstLink) firstLink.focus();
+    }
+  }, [mobileOpen]);
+
+  // GSAP active pill — read link positions from DOM (no ref on TransitionLink)
   useGSAP(() => {
-    if (!pillRef.current) return;
+    if (!pillRef.current || !linksWrapRef.current) return;
     const activeIdx = NAV_ITEMS.findIndex(i => {
       if (i.to === '/') return location.pathname === '/';
       return location.pathname.startsWith(i.to);
     });
     if (activeIdx === -1) { gsap.set(pillRef.current, { opacity: 0 }); return; }
-    const linkEl = linksRef.current[activeIdx];
+    // Query the anchor children of the links wrapper (skip the pill span)
+    const linkEls = Array.from(linksWrapRef.current.querySelectorAll('a.navbar__link'));
+    const linkEl = linkEls[activeIdx];
     if (!linkEl) return;
     const { offsetLeft, offsetWidth } = linkEl;
     gsap.to(pillRef.current, {
@@ -53,16 +77,23 @@ export function Navbar({ theme, onThemeToggle }) {
     });
   }, [location.pathname]);
 
-  // Mobile menu animation
+  // GSAP stagger for mobile menu links
   useGSAP(() => {
-    const menu = mobileMenuRef.current;
-    if (!menu) return;
+    if (!menuRef.current) return;
+    const links = Array.from(menuRef.current.querySelectorAll('a.mobile-menu__link'));
+    if (!links.length) return;
     if (mobileOpen) {
-      gsap.fromTo(menu, { opacity: 0, y: -12 }, { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' });
+      gsap.fromTo(links,
+        { opacity: 0, x: -20 },
+        { opacity: 1, x: 0, duration: 0.35, ease: 'power3.out', stagger: 0.06, delay: 0.1 }
+      );
     } else {
-      gsap.to(menu, { opacity: 0, y: -12, duration: 0.2, ease: 'power2.in' });
+      gsap.set(links, { opacity: 0, x: 0 });
     }
   }, [mobileOpen]);
+
+  const isActive = (item) =>
+    item.to === '/' ? location.pathname === '/' : location.pathname.startsWith(item.to);
 
   return (
     <>
@@ -73,18 +104,14 @@ export function Navbar({ theme, onThemeToggle }) {
           </TransitionLink>
 
           {/* Desktop links */}
-          <div className="navbar__links-wrap" role="list">
+          <div ref={linksWrapRef} className="navbar__links-wrap" role="list">
             {/* Sliding pill indicator */}
             <span ref={pillRef} className="navbar__pill" aria-hidden="true" />
-            {NAV_ITEMS.map((item, i) => (
+            {NAV_ITEMS.map((item) => (
               <TransitionLink
                 key={item.to}
                 to={item.to}
-                ref={el => { linksRef.current[i] = el; }}
-                className={`navbar__link ${
-                  (item.to === '/' ? location.pathname === '/' : location.pathname.startsWith(item.to))
-                    ? 'navbar__link--active' : ''
-                }`}
+                className={`navbar__link ${isActive(item) ? 'navbar__link--active' : ''}`}
                 role="listitem"
                 data-cursor="link"
               >
@@ -115,28 +142,63 @@ export function Navbar({ theme, onThemeToggle }) {
         </nav>
       </header>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu — fullscreen overlay */}
       <div
-        ref={mobileMenuRef}
+        ref={menuRef}
         className={`mobile-menu ${mobileOpen ? 'mobile-menu--open' : ''}`}
         aria-hidden={!mobileOpen}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Navigation menu"
       >
+        {/* Backdrop tap to close */}
+        <div
+          className="mobile-menu__backdrop"
+          onClick={() => setMobileOpen(false)}
+          aria-hidden="true"
+        />
+
         <ul role="list">
-          {NAV_ITEMS.map(item => (
+          {NAV_ITEMS.map((item) => (
             <li key={item.to}>
               <TransitionLink
                 to={item.to}
-                className={`mobile-menu__link ${
-                  (item.to === '/' ? location.pathname === '/' : location.pathname.startsWith(item.to))
-                    ? 'mobile-menu__link--active' : ''
-                }`}
+                className={`mobile-menu__link ${isActive(item) ? 'mobile-menu__link--active' : ''}`}
                 data-cursor="link"
+                tabIndex={mobileOpen ? 0 : -1}
               >
                 {item.label}
               </TransitionLink>
             </li>
           ))}
         </ul>
+
+        {/* Footer: theme toggle + CV download */}
+        <div className="mobile-menu__footer">
+          <button
+            className="navbar__theme-btn"
+            onClick={onThemeToggle}
+            aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
+            tabIndex={mobileOpen ? 0 : -1}
+          >
+            {theme === 'light' ? <FiMoon size={18} /> : <FiSun size={18} />}
+            <span style={{ marginLeft: '0.5rem', fontSize: '0.875rem', fontWeight: 500 }}>
+              {theme === 'light' ? 'Dark mode' : 'Light mode'}
+            </span>
+          </button>
+
+          {site.showCvDownload && site.cvPath && (
+            <a
+              href={site.cvPath}
+              download="Himeshika_Nethmini_CV.pdf"
+              className="mobile-menu__cv-btn"
+              tabIndex={mobileOpen ? 0 : -1}
+            >
+              <FiDownload size={16} />
+              <span>Download CV</span>
+            </a>
+          )}
+        </div>
       </div>
     </>
   );

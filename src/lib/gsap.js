@@ -8,6 +8,9 @@ import { Flip } from 'gsap/Flip';
 
 gsap.registerPlugin(ScrollTrigger, Flip);
 
+// Prevent mobile browser toolbar show/hide from triggering ScrollTrigger
+ScrollTrigger.config({ ignoreMobileResize: true });
+
 // Smooth-scroll via lenis: driven off gsap ticker
 gsap.ticker.lagSmoothing(0);
 

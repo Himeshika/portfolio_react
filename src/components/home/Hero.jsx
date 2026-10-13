@@ -5,9 +5,9 @@ import { TransitionLink } from '../layout/TransitionLink';
 import { PhotoArch } from './PhotoArch';
 import { Sparkles } from './Sparkles';
 import { Stats } from './Stats';
+import { CVButton } from './CVButton';
 import { useLoader } from '../../context/LoaderContext';
 import './Hero.css';
-
 
 function RoleRotator({ roles }) {
   const [idx, setIdx] = useState(0);
@@ -45,11 +45,24 @@ export function Hero({ site }) {
   const { done } = useLoader();
   const leftRef = useRef(null);
   const charsRef = useRef([]);
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined'
+      ? window.matchMedia('(max-width: 767px)').matches
+      : false
+  );
+
+  // Track mobile breakpoint
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)');
+    const update = (e) => setIsMobile(e.matches);
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
 
   const nameParts = site.name.split(' ');
 
   useEffect(() => {
-    if (!done) return; // wait for loader exit before animating
+    if (!done) return;
     const chars = charsRef.current.filter(Boolean);
     if (!chars.length) return;
 
@@ -77,7 +90,8 @@ export function Hero({ site }) {
 
   return (
     <section id="home" className="hero" aria-label="Introduction">
-      <Sparkles count={16} />
+      {/* Sparkles: desktop only */}
+      {!isMobile && <Sparkles count={16} />}
 
       <div className="container hero__inner">
         {/* LEFT */}
@@ -139,6 +153,9 @@ export function Hero({ site }) {
             >
               Let&apos;s talk
             </TransitionLink>
+
+            {/* Download CV — glowing ring button */}
+            <CVButton />
           </div>
 
           {/* Socials */}
@@ -154,7 +171,7 @@ export function Hero({ site }) {
 
         {/* RIGHT */}
         <div className="hero__right" data-enter="fade">
-          <PhotoArch />
+          <PhotoArch isMobile={isMobile} />
         </div>
       </div>
     </section>

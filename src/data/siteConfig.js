@@ -1,22 +1,22 @@
 export const site = {
-  name:      "Himeshika Nethmini",
+  name: "Himeshika Nethmini",
   shortName: "Himeshika",
-  initials:  "HN",
-  title:     "Software Engineering Undergraduate",
-  tagline:   "I build secure, well-tested full-stack apps with Java, Spring Boot and React.",
-  eyebrow:   "Open to internships & opportunities",
-  location:  "Badulla, Sri Lanka",
+  initials: "HN",
+  title: "Software Engineering Undergraduate",
+  tagline: "I build secure, well-tested full-stack apps with Java, Spring Boot and React.",
+  eyebrow: "Open to internships & opportunities",
+  location: "Badulla, Sri Lanka",
 
-  email:     "himeshikanethmini@gmail.com",
-  phone:     "",
-  showPhone: false,
+  email: "himeshikanethmini@gmail.com",
+  phone: "+94762814444",
+  showPhone: true,
 
   socials: {
-    github:    "https://github.com/Himeshika",
-    linkedin:  "",       // fill in when available
+    github: "https://github.com/Himeshika",
+    linkedin: "https://www.linkedin.com/in/himeshika-nethmini-8bb8a528a/",       // fill in when available
     instagram: "",
-    facebook:  "",
-    x:         "",
+    facebook: "",
+    x: "",
   },
 
   // Rotating roles in the hero
@@ -28,12 +28,12 @@ export const site = {
   ],
 
   stats: [
-    { value: 7,   suffix: "",  label: "Projects" },
-    { value: 15,  suffix: "+", label: "Technologies" },
-    { value: 2,   suffix: "",  label: "Stacks (Java & MERN)" },
+    { value: 7, suffix: "", label: "Projects" },
+    { value: 15, suffix: "+", label: "Technologies" },
+    { value: 2, suffix: "", label: "Stacks (Java & MERN)" },
   ],
 
   // Set to true and add public/Himeshika_Nethmini_CV.pdf (redacted — no phone/references) to enable CV download
-  showCvDownload: false,
-  cvPath: "/Himeshika_Nethmini_CV.pdf",
+  showCvDownload: true,
+  cvPath: "/Himeshika_Nethmini_CV_V5.pdf",
 };

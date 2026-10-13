@@ -11,8 +11,12 @@ const ORBIT_CHIPS = [
   { label: 'Git',    icon: '🔀', angle: 288 },
 ];
 
-export function PhotoArch() {
-  const parallaxRef = useMouseParallax(8);
+export function PhotoArch({ isMobile }) {
+  // Disable parallax on touch devices
+  const parallaxRef = useMouseParallax(isMobile ? 0 : 8);
+
+  // Show fewer chips on mobile to prevent overflow
+  const visibleChips = isMobile ? ORBIT_CHIPS.slice(0, 3) : ORBIT_CHIPS;
 
   return (
     <div className="photo-arch-wrapper">
@@ -22,8 +26,8 @@ export function PhotoArch() {
       {/* Glow blob behind photo */}
       <div className="photo-arch__glow" aria-hidden="true" />
 
-      {/* Photo with parallax */}
-      <div ref={parallaxRef} className="photo-arch__tilt" style={{ perspective: 800 }}>
+      {/* Photo with parallax (disabled on touch) */}
+      <div ref={isMobile ? null : parallaxRef} className="photo-arch__tilt" style={{ perspective: 800 }}>
         <div className="photo-arch">
           <img
             src={heroImg}
@@ -37,7 +41,7 @@ export function PhotoArch() {
 
       {/* Orbit chips */}
       <div className="orbit" aria-hidden="true">
-        {ORBIT_CHIPS.map((chip) => (
+        {visibleChips.map((chip) => (
           <div
             key={chip.label}
             className="orbit__chip"
@@ -49,7 +53,7 @@ export function PhotoArch() {
         ))}
       </div>
 
-      {/* Floating badges */}
+      {/* Floating badges — hidden on mobile via CSS */}
       <div className="float-badge float-badge--1">✨ Clean UI</div>
       <div className="float-badge float-badge--2">☕ Java Dev</div>
       <div className="float-badge float-badge--3">💗 Detail-lover</div>

@@ -3,6 +3,38 @@ import { FiX, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { gsap } from '../../lib/gsap';
 import './Lightbox.css';
 
+// Minimal touch-swipe hook
+function useTouchSwipe(containerRef, { onLeft, onRight, threshold = 50 }) {
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    let startX = 0;
+    let startY = 0;
+
+    const onTouchStart = (e) => {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    };
+
+    const onTouchEnd = (e) => {
+      const dx = e.changedTouches[0].clientX - startX;
+      const dy = e.changedTouches[0].clientY - startY;
+      // Only fire if horizontal swipe dominates
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > threshold) {
+        dx < 0 ? onLeft() : onRight();
+      }
+    };
+
+    el.addEventListener('touchstart', onTouchStart, { passive: true });
+    el.addEventListener('touchend', onTouchEnd, { passive: true });
+    return () => {
+      el.removeEventListener('touchstart', onTouchStart);
+      el.removeEventListener('touchend', onTouchEnd);
+    };
+  }, [containerRef, onLeft, onRight, threshold]);
+}
+
 export function Lightbox({ item, items, onClose, onNavigate }) {
   const containerRef = useRef(null);
   const contentRef = useRef(null);
@@ -17,6 +49,12 @@ export function Lightbox({ item, items, onClose, onNavigate }) {
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
   }, [onClose, onNavigate]);
+
+  // Touch swipe — next/prev
+  useTouchSwipe(containerRef, {
+    onLeft:  () => item && onNavigate(1),
+    onRight: () => item && onNavigate(-1),
+  });
 
   // Animate in when item becomes active
   useEffect(() => {
@@ -40,21 +78,29 @@ export function Lightbox({ item, items, onClose, onNavigate }) {
   const currentIndex = items.findIndex((i) => i.src === item.src);
 
   return (
-    <div ref={containerRef} className="lightbox" role="dialog" aria-modal="true" aria-label="Image lightbox">
+    <div
+      ref={containerRef}
+      className="lightbox"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Image lightbox"
+    >
       {/* Backdrop overlay */}
       <div className="lightbox__backdrop" onClick={onClose} aria-hidden="true" />
 
-      <button className="lightbox__close" onClick={onClose} aria-label="Close lightbox" data-cursor="link">
+      <button
+        className="lightbox__close"
+        onClick={onClose}
+        aria-label="Close lightbox"
+        data-cursor="link"
+      >
         <FiX size={26} />
       </button>
 
       {/* Controls */}
       <button
         className="lightbox__nav lightbox__nav--prev"
-        onClick={(e) => {
-          e.stopPropagation();
-          onNavigate(-1);
-        }}
+        onClick={(e) => { e.stopPropagation(); onNavigate(-1); }}
         aria-label="Previous image"
         data-cursor="link"
       >
@@ -63,10 +109,7 @@ export function Lightbox({ item, items, onClose, onNavigate }) {
 
       <button
         className="lightbox__nav lightbox__nav--next"
-        onClick={(e) => {
-          e.stopPropagation();
-          onNavigate(1);
-        }}
+        onClick={(e) => { e.stopPropagation(); onNavigate(1); }}
         aria-label="Next image"
         data-cursor="link"
       >
@@ -77,7 +120,11 @@ export function Lightbox({ item, items, onClose, onNavigate }) {
         {currentIndex >= 0 ? currentIndex + 1 : 1} / {items.length}
       </div>
 
-      <div ref={contentRef} className="lightbox__content" onClick={(e) => e.stopPropagation()}>
+      <div
+        ref={contentRef}
+        className="lightbox__content"
+        onClick={(e) => e.stopPropagation()}
+      >
         <img
           src={item.src}
           alt={item.alt || 'Gallery photo'}

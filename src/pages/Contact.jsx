@@ -51,7 +51,7 @@ export function Contact() {
         <span className="page-eyebrow">04 / Contact</span>
         <h1 data-enter="title" className="page-title">Let's talk</h1>
         <p data-enter="fade" className="page-intro">
-          Looking for a Full-Stack or QA Engineering intern, or want to discuss a project? Drop a line.
+          Looking for a Full-Stack or intern, or want to discuss a project? Drop a line.
         </p>
       </header>
 
@@ -125,8 +125,9 @@ export function Contact() {
 
         {/* Right: Contact form */}
         <section className="contact-form-wrap" data-enter="fade">
-          <form className="contact-form" onSubmit={onSubmit}>
+          <form className="contact-form" onSubmit={onSubmit} noValidate>
             <input type="hidden" name="subject" value="New Portfolio Message" />
+            {/* Honeypot — must stay hidden */}
             <input
               type="checkbox"
               name="botcheck"
@@ -134,41 +135,61 @@ export function Contact() {
               style={{ display: 'none' }}
               tabIndex={-1}
               autoComplete="off"
+              aria-hidden="true"
             />
 
+            {/* Status region — read by screen readers */}
+            <div
+              aria-live="polite"
+              aria-atomic="true"
+              className="visually-hidden"
+            >
+              {status === 'success' && 'Message sent successfully!'}
+              {status === 'error' && 'Failed to send. Please try emailing directly.'}
+            </div>
+
             <div className="form-group">
-              <label htmlFor="name" className="form-label">Name</label>
+              <label htmlFor="contact-name" className="form-label">Name</label>
               <input
                 type="text"
-                id="name"
+                id="contact-name"
                 name="name"
                 required
                 placeholder="What should I call you?"
                 className="form-input"
+                autoComplete="name"
+                autoCapitalize="words"
+                spellCheck="false"
               />
             </div>
 
             <div className="form-group">
-              <label htmlFor="email" className="form-label">Email address</label>
+              <label htmlFor="contact-email" className="form-label">Email address</label>
               <input
                 type="email"
-                id="email"
+                id="contact-email"
                 name="email"
                 required
                 placeholder="Where should I reply?"
                 className="form-input"
+                autoComplete="email"
+                inputMode="email"
+                autoCapitalize="none"
+                spellCheck="false"
               />
             </div>
 
             <div className="form-group">
-              <label htmlFor="message" className="form-label">Message</label>
+              <label htmlFor="contact-message" className="form-label">Message</label>
               <textarea
-                id="message"
+                id="contact-message"
                 name="message"
                 required
                 rows={5}
                 placeholder="Tell me about the role, project, or say hello..."
                 className="form-input form-input--textarea"
+                autoCapitalize="sentences"
+                spellCheck="true"
               />
             </div>
 
@@ -191,7 +212,8 @@ export function Contact() {
               )}
               {status === 'error' && (
                 <span className="submit-status submit-status--error">
-                  <FiAlertCircle /> Failed to send. Please email directly.
+                  <FiAlertCircle /> Failed.{' '}
+                  <a href={`mailto:${site.email}`} className="error-mailto">Email me directly</a>
                 </span>
               )}
             </button>

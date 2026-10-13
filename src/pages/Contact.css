@@ -166,3 +166,15 @@
     gap: 2rem;
   }
 }
+
+/* Error state mailto link */
+.error-mailto {
+  color: inherit;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.error-mailto:hover {
+  color: var(--rose);
+}
+

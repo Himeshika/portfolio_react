@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import '@fontsource-variable/inter';
 import '@fontsource-variable/fraunces';
 import './styles/global.css';
+import './styles/responsive.css';
 
 import { Layout } from './components/layout/Layout';
 import { Home } from './pages/Home';
