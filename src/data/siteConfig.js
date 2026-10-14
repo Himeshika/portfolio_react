@@ -1,6 +1,6 @@
 export const site = {
   name: "Himeshika Nethmini",
-  shortName: "Himeshika",
+  shortName: "I'm Himeshika",
   initials: "HN",
   title: "Software Engineering Undergraduate",
   tagline: "I build secure, well-tested full-stack apps with Java, Spring Boot and React.",
